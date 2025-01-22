@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
@@ -24,37 +26,43 @@ class MainActivity : ComponentActivity() {
         val animeListDao = AnimeDatabase.getDatabase(applicationContext).animeListDao()
         val repository = AnimeListRepository(apiService,animeListDao)
         viewModel = ViewModelProvider(this,MainViewModelFactory(repository)).get(MainViewModel::class.java)
-        viewModel.getanimeList()
-        Log.d(TAG, "onCreate: ${viewModel.animelist.toString()}")
+        Log.d(TAG, "onCreate: ${viewModel.animelist.value}")
         setContent {
             Jikan_ComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
                         name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        viewModel=viewModel
                     )
                 }
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ${viewModel.animelist.value.toString()}")
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(name: String, modifier: Modifier = Modifier,viewModel: MainViewModel) {
+    var str= remember {
+        viewModel.animelist.value?.let { mutableStateOf(it.size) }
+    }
+    Log.d(TAG, "Greeting: Recomposition happening")
     Text(
-        text = "Hello $name!",
+        text = "Hello ${str}!",
         modifier = modifier
     )
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     Jikan_ComposeTheme {
         Greeting("Android")
     }
-}
+}*/

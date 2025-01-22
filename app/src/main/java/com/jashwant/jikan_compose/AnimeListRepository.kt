@@ -17,18 +17,19 @@ class AnimeListRepository(
         get()=_animelistrepo
 
 
-    suspend fun getTopAnimeList(){
+    suspend fun fetchAnimeList(){
         try {
             val result= apiService.getTopAnimeList()
             if(result.body()!=null){
                 Log.d(TAG, "Data is now updated to DB: ${result.body()!!.data}")
                 animeListDao.addAnimes(result.body()!!.data)
-                _animelistrepo.postValue(result.body()!!.data)
+                _animelistrepo.postValue(animeListDao.getAnimes())
             }
         }catch (e:Exception){
-            Log.d(TAG, "getTopAnimeList: exceptionnnnn Due to Internet issue")
+            Log.d(TAG, "getTopAnimeList: exceptionnnnn maybe Due to Internet issue  ${e.message}")
         }
-        val finalresult=animeListDao.getAnimes()
-        Log.d(TAG, "Now data is loading from DB: ${animelistrepo.toString()}")
+    }
+    suspend fun getanime(): LiveData<List<Data>?> {
+        return animelistrepo
     }
 }

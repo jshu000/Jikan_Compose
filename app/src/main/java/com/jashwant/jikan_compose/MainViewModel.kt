@@ -18,13 +18,13 @@ class MainViewModel(private val animeListRepository: AnimeListRepository):ViewMo
     val animelist : LiveData<List<Data>?>
         get()=animeListRepository.animelistrepo
 
-
-
-    fun getanimeList(){
+    init {
         viewModelScope.launch(Dispatchers.IO) {
-            animeListRepository.getTopAnimeList()
+            animeListRepository.fetchAnimeList()
         }
     }
+
+
 
 
 
