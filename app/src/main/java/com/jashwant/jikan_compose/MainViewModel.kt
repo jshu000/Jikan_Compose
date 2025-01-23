@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import retrofit2.Response
 
 class MainViewModel(private val animeListRepository: AnimeListRepository):ViewModel(){
@@ -29,51 +30,26 @@ class MainViewModel(private val animeListRepository: AnimeListRepository):ViewMo
     val animelistflow = _animelistflow.asStateFlow()
 
     init {
-        getAll()
         fetchAll()
     }
 
     fun fetchAll(){
         viewModelScope.launch(Dispatchers.IO) {
-            animeListRepository.fetchAnimeList()
+            Log.d(TAG, "fetchAll: ")
             with(_state) {
                 emit(UiState.Loading)
+                //remotedatafetching
                 try {
-                    val result = async { animeListRepository.fetchAnimeList() }.await()
-                    if (result.size!= 0) {
-                        Log.d("jashwant", "Result from remote ${result} ")
+                    var result = animeListRepository.fetchAnimeList()
+                    if (result?.size!= 0) {
+                        Log.d(TAG, "Result from repository ${result} ")
 
                         _animelistflow.value = result
                         emit(UiState.Success(_animelistflow.value))
 
-                    } else {
-                        Log.e("jashwant", "Result from Remote size is zero")
                     }
-
                 } catch (ex: Exception) {
-                    emit(UiState.Failed(ex.message))
-                }
-            }
-        }
-    }
-    fun getAll(){
-        viewModelScope.launch(Dispatchers.IO) {
-            animeListRepository.getanimelist()
-            with(_state) {
-                emit(UiState.Loading)
-                try {
-                    val result = async { animeListRepository.getanimelist() }.await()
-                    if (result?.size!= 0) {
-                        Log.d("jashwant", "Result from local ${result}")
-
-                        _animelistflow.value = result!!
-                        emit(UiState.Success(_animelistflow.value))
-
-                    } else {
-                        Log.e("jashwant", "Result from local size is zero")
-                    }
-
-                } catch (ex: Exception) {
+                    Log.d(TAG, "Result from repository is zero")
                     emit(UiState.Failed(ex.message))
                 }
             }

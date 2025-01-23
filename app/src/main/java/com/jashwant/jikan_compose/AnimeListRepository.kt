@@ -1,5 +1,6 @@
 package com.jashwant.jikan_compose
 
+import android.accounts.NetworkErrorException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +8,6 @@ import com.jashwant.jikan_compose.models.AnimeList
 import com.jashwant.jikan_compose.models.Data
 import retrofit2.Response
 
-val TAG="JashwantJikan"
 class AnimeListRepository(
     private val apiService: ApiService,
     private val animeListDao: AnimeListDao
@@ -27,13 +27,14 @@ class AnimeListRepository(
                 _animelistrepo.postValue(animeListDao.getAnimes())
                 result2=result.body()!!.data
             }
+        }catch (e:NetworkErrorException){
+            Log.d(TAG, "getTopAnimeList: exceptionnnnn maybe Due to Internet issue1  ${e.message}")
         }catch (e:Exception){
-            Log.d(TAG, "getTopAnimeList: exceptionnnnn maybe Due to Internet issue  ${e.message}")
+            Log.d(TAG, "getTopAnimeList: exceptionnnnn maybe Due to Internet issue2  ${e.message}")
         }
-        return result2
+        return animeListDao.getAnimes()
     }
     suspend fun getanimelist(): List<Data>? {
-        var result= animeListDao.getAnimes()
-        return result
+        return animeListDao.getAnimes()
     }
 }
