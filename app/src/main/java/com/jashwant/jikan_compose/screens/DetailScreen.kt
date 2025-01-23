@@ -257,6 +257,6 @@ fun ExoPlayerView(viewModel: MainViewModel) {
             }
         },
         modifier = Modifier
-            .fillMaxWidth() // Set your desired height
+            .fillMaxWidth() 
     )
 }
