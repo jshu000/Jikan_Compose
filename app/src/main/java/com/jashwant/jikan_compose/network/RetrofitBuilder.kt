@@ -1,4 +1,4 @@
-package com.jashwant.jikan_compose
+package com.jashwant.jikan_compose.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,5 +13,5 @@ object RetrofitBuilder {
             .build()
     }
 
-    val apiService:ApiService= getRetrofit().create(ApiService::class.java)
+    val apiService: ApiService = getRetrofit().create(ApiService::class.java)
 }

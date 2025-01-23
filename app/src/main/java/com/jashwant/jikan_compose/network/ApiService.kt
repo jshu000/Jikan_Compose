@@ -1,4 +1,4 @@
-package com.jashwant.jikan_compose
+package com.jashwant.jikan_compose.network
 
 import com.jashwant.jikan_compose.models.AnimeList
 import retrofit2.Response

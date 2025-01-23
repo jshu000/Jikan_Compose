@@ -1,21 +1,19 @@
-package com.jashwant.jikan_compose
+package com.jashwant.jikan_compose.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.jashwant.jikan_compose.models.AnimeList
+import com.jashwant.jikan_compose.DetailUiState
+import com.jashwant.jikan_compose.TAG
+import com.jashwant.jikan_compose.UiState
 import com.jashwant.jikan_compose.models.Data
+import com.jashwant.jikan_compose.repository.AnimeListRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
-import retrofit2.Response
 
 class MainViewModel(private val animeListRepository: AnimeListRepository):ViewModel(){
 

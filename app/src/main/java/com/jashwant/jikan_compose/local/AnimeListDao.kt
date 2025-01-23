@@ -1,6 +1,5 @@
-package com.jashwant.jikan_compose
+package com.jashwant.jikan_compose.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

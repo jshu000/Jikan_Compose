@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 
-package com.jashwant.jikan_compose
+package com.jashwant.jikan_compose.screens
 
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -36,6 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.jashwant.jikan_compose.viewmodels.MainViewModel
+import com.jashwant.jikan_compose.TAG
+import com.jashwant.jikan_compose.UiState
 import com.jashwant.jikan_compose.models.Data
 
 @Composable

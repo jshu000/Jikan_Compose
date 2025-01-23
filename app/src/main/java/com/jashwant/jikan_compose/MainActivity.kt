@@ -17,8 +17,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.jashwant.jikan_compose.local.AnimeDatabase
 import com.jashwant.jikan_compose.models.Data
+import com.jashwant.jikan_compose.network.RetrofitBuilder
+import com.jashwant.jikan_compose.repository.AnimeListRepository
+import com.jashwant.jikan_compose.screens.AnimeListScreen
+import com.jashwant.jikan_compose.screens.DetailScreen
 import com.jashwant.jikan_compose.ui.theme.Jikan_ComposeTheme
+import com.jashwant.jikan_compose.viewmodels.MainViewModel
+import com.jashwant.jikan_compose.viewmodels.MainViewModelFactory
 
 const val TAG="JashwantJikan"
 class MainActivity : ComponentActivity() {
@@ -29,7 +36,7 @@ class MainActivity : ComponentActivity() {
         val apiService= RetrofitBuilder.apiService
         val animeListDao = AnimeDatabase.getDatabase(applicationContext).animeListDao()
         val repository = AnimeListRepository(apiService,animeListDao)
-        viewModel = ViewModelProvider(this,MainViewModelFactory(repository)).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
         Log.d(TAG, "onCreate: ${viewModel.animelist.value}")
         setContent {
             Jikan_ComposeTheme {
