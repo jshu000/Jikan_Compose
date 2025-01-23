@@ -52,6 +52,7 @@ fun App(viewModel: MainViewModel){
                     viewModel.currentdata=data
                     Log.d(TAG, "App: data result-$data")
                     currentPage.value=Pages.DETAIL
+                    viewModel.fetchcurrentData()
                 }
             )
         }
@@ -61,7 +62,7 @@ fun App(viewModel: MainViewModel){
             Log.d(TAG, "App: DetailScreen")
             DetailScreen(
                 modifier = Modifier.padding(innerPadding),
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
     }

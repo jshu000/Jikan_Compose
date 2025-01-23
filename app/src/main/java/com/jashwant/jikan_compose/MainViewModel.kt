@@ -28,7 +28,7 @@ class MainViewModel(private val animeListRepository: AnimeListRepository):ViewMo
     val state = _state.asStateFlow()
 
     private var _detailstate = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
-    val detailstate = _state.asStateFlow()
+    val detailstate = _detailstate.asStateFlow()
 
     private var _animelistflow = MutableStateFlow<List<Data>>(emptyList())
     val animelistflow = _animelistflow.asStateFlow()
@@ -55,6 +55,26 @@ class MainViewModel(private val animeListRepository: AnimeListRepository):ViewMo
                 } catch (ex: Exception) {
                     Log.d(TAG, "Result from repository is zero")
                     emit(UiState.Failed(ex.message))
+                }
+            }
+        }
+    }
+    fun fetchcurrentData(){
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "fetchAll: ")
+            with(_detailstate) {
+                emit(DetailUiState.Loading)
+                //remotedatafetching
+                try {
+                    var result = animeListRepository.fetchAnimeList()
+                    if (result?.size!= 0) {
+                        Log.d(TAG, "Result from repository of Current data${currentdata} ")
+
+                        emit(DetailUiState.Success(currentdata!!))
+                    }
+                } catch (ex: Exception) {
+                    Log.d(TAG, "Result from repository of current data is zero")
+                    emit(DetailUiState.Failed(ex.message))
                 }
             }
         }
