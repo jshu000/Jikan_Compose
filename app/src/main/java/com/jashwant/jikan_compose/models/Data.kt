@@ -16,6 +16,7 @@ data class Data(
     val url: String,
     val synopsis: String,
     val genres: List<Genre>,
+    val trailer: Trailer,
 )
 
 

@@ -5,7 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jashwant.jikan_compose.models.Genre
 import com.jashwant.jikan_compose.models.Images
+import com.jashwant.jikan_compose.models.ImagesX
 import com.jashwant.jikan_compose.models.Jpg
+import com.jashwant.jikan_compose.models.Trailer
 
 class Converters {
 
@@ -46,4 +48,31 @@ class Converters {
         return gson.fromJson(genreString, type)
     }
 
+    @TypeConverter
+    fun fromTrailer(trailer: Trailer?): String? {
+        if (trailer == null) return null
+        val gson = Gson()
+        return gson.toJson(trailer)
+    }
+
+    @TypeConverter
+    fun toTrailer(trailerString: String?): Trailer? {
+        if (trailerString == null) return null
+        val gson = Gson()
+        return gson.fromJson(trailerString, Trailer::class.java)
+    }
+
+    @TypeConverter
+    fun fromImagesX(imagesX: ImagesX?): String? {
+        if (imagesX == null) return null
+        val gson = Gson()
+        return gson.toJson(imagesX)
+    }
+
+    @TypeConverter
+    fun toImagesX(imagesXString: String?): ImagesX? {
+        if (imagesXString == null) return null
+        val gson = Gson()
+        return gson.fromJson(imagesXString, ImagesX::class.java)
+    }
 }
