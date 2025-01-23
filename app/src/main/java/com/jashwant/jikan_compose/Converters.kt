@@ -2,6 +2,8 @@ package com.jashwant.jikan_compose
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.jashwant.jikan_compose.models.Genre
 import com.jashwant.jikan_compose.models.Images
 import com.jashwant.jikan_compose.models.Jpg
 
@@ -28,4 +30,20 @@ class Converters {
     fun toImages(json: String?): Images? {
         return json?.let { gson.fromJson(it, Images::class.java) }
     }
+
+    @TypeConverter
+    fun fromGenreList(genres: List<Genre>?): String? {
+        if (genres == null) return null
+        val gson = Gson()
+        return gson.toJson(genres)
+    }
+
+    @TypeConverter
+    fun toGenreList(genreString: String?): List<Genre>? {
+        if (genreString == null) return null
+        val gson = Gson()
+        val type = object : TypeToken<List<Genre>>() {}.type
+        return gson.fromJson(genreString, type)
+    }
+
 }

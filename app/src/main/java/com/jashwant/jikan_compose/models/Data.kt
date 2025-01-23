@@ -14,6 +14,8 @@ data class Data(
     val title: String,
     val title_english: String?,
     val url: String,
+    val synopsis: String,
+    val genres: List<Genre>,
 )
 
 

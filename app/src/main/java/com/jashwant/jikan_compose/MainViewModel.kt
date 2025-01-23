@@ -19,12 +19,16 @@ import retrofit2.Response
 
 class MainViewModel(private val animeListRepository: AnimeListRepository):ViewModel(){
 
+    var currentdata:Data?= null
     private val _animelist =MutableLiveData<List<Data>>()
     val animelist : LiveData<List<Data>>
         get()=animeListRepository.animelistrepo
 
     private var _state = MutableStateFlow<UiState>(UiState.Loading)
     val state = _state.asStateFlow()
+
+    private var _detailstate = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
+    val detailstate = _state.asStateFlow()
 
     private var _animelistflow = MutableStateFlow<List<Data>>(emptyList())
     val animelistflow = _animelistflow.asStateFlow()
